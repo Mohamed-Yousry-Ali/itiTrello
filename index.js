@@ -8,11 +8,11 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(express.json())
-
+app.use(cors())
 connection();
  app.use(userRouts);
  app.use(taskRouts)
- app.use(cors())
+
 // app.use(messageRoutes)
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
