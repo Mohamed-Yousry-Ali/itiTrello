@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
         }
     ],
     deleted: { type: Boolean, default: false },
+    isAdmin: { type: Boolean, default: false },
     isLogged: { type: Boolean, default: false }
 },{
     timestamps:true

@@ -30,7 +30,7 @@ const signIn = async (req, res) => {
     if (founded) {
         let matched = bcrypt.compareSync(req.body.password, founded.password)
         if (matched) {
-            let token = Jwt.sign({ id: founded.id }, "toke")
+            let token = Jwt.sign({ id: founded.id , isAdmin: founded.isAdmin }, "toke")
             let updateLogout = await userModel.findByIdAndUpdate(founded._id, { isLogged: true }, { new: true })
             res.status(200).json({ message: "Welcome", updateLogout, token })
         } else {
