@@ -118,6 +118,11 @@ const deleteUser = async (req, res) => {
 
 }
 
+const deleteUserid = async(req,res)=>{
+    const userid = req.params.id;
+    let delUser = await userModel.findByIdAndDelete(userid)
+    res.json({ message: "Deleted Success", delUser })
+}
 
 const softdeleteUser = async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
@@ -170,7 +175,9 @@ export {
     signIn,
     changePass,
     updateUser,
+  
     deleteUser,
+    deleteUserid,
     softdeleteUser,
     getSoftDelete,
     logout
