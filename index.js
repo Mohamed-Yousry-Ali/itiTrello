@@ -8,7 +8,12 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(express.json())
-app.use(cors())
+const corsOptions ={
+    origin:'https://ititrello.onrender.com', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 connection();
  app.use(userRouts);
  app.use(taskRouts)
