@@ -19,7 +19,7 @@ const addtask = async (req, res) => {
         let user = await userModel.findById(usertoken)
         let asign = await userModel.findById(req.assignTo)
         console.log(req.assignTo)
-        let { title, description, status, assignTo, deadLine } = req.body;
+        let { title, description, status,  deadLine} = req.body;
         let addTask = await taskModel.insertMany({ title, description, status, deadLine, userId: asign })
         user.task.push(addTask[0]._id);
         await user.save();
