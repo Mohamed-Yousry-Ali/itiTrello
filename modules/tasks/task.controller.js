@@ -97,7 +97,7 @@ const deleteTask = async (req, res) => {
 
 
 const getallTask = async (req, res) => {
-    const alltask = await taskModel.find().populate("userId")
+    const alltask = await taskModel.find().populate("userId").populate("assignTo")
     res.status(201).json({ message: "All Tasks", alltask })
 }
 
