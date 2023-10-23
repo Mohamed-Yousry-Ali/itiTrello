@@ -14,7 +14,10 @@ const taskSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User"
     },
-
+    assignTo:  {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    },
     deadLine: Date
 })
 

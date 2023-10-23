@@ -17,10 +17,10 @@ const addtask = async (req, res) => {
 
         let usertoken = decoded.id;
         let user = await userModel.findById(usertoken)
-        let asign = await userModel.findById(req.assignTo)
-        console.log(req.assignTo)
-        let { title, description, status,  deadLine} = req.body;
-        let addTask = await taskModel.insertMany({ title, description, status, deadLine, userId: asign })
+        let asign = await userModel.findById(req.body.assignTo)
+        console.log(req.body.assignTo)
+        let { title, description, status, assignTo, deadLine } = req.body;
+        let addTask = await taskModel.insertMany({ title, description, status, assignTo:asign, deadLine, userId: user })
         user.task.push(addTask[0]._id);
         await user.save();
         res.status(201).json({ message: "Added Success", addTask })
