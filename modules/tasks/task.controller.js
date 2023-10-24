@@ -101,6 +101,25 @@ const getallTask = async (req, res) => {
     res.status(201).json({ message: "All Tasks", alltask })
 }
 
+
+const gettask = async (req, res) => {
+    const taskid = req.params.id;
+
+    // Find the task by ID
+    const task = await taskModel.findById(taskid);
+    if (!task) {
+        return res.status(404).json({ error: 'Task not found' });
+    }
+
+    // Verify that the user making the request is the creator of the task
+    if (task.userId.toString() !== decoded.id) {
+        return res.status(403).json({ error: 'You Not The Creator' });
+    }
+
+    res.status(201).json({ message: "All Tasks", task })
+}
+
+
 const afterdeadLine = async (req, res) => {
     const alltask = await taskModel.find({
         status: { $ne: 'done' },
@@ -111,10 +130,13 @@ const afterdeadLine = async (req, res) => {
     res.status(201).json({ message: "All Tasks", alltask })
 }
 
+
+
 export {
     addtask,
     getallTask,
     updateTask,
     deleteTask,
-    afterdeadLine
+    afterdeadLine,
+    gettask
 }

@@ -1,5 +1,5 @@
 import express from "express";
-import { addtask, afterdeadLine, deleteTask, getallTask, updateTask } from "./task.controller.js";
+import { addtask, afterdeadLine, deleteTask, getallTask, updateTask,gettask } from "./task.controller.js";
 
 const taskRouts = express.Router();
 taskRouts.post("/addtask", addtask)
@@ -8,4 +8,5 @@ taskRouts.patch("/updatetask/:id", updateTask)
 taskRouts.delete("/deletetask/:id", deleteTask)
 
 taskRouts.get("/notdonetask", afterdeadLine)
+taskRouts.get("/task/:id", gettask)
 export default taskRouts;
