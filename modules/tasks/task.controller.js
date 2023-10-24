@@ -107,14 +107,7 @@ const gettask = async (req, res) => {
 
     // Find the task by ID
     const task = await taskModel.findById(taskid);
-    if (!task) {
-        return res.status(404).json({ error: 'Task not found' });
-    }
-
-    // Verify that the user making the request is the creator of the task
-    if (task.userId.toString() !== decoded.id) {
-        return res.status(403).json({ error: 'You Not The Creator' });
-    }
+  
 
     res.status(201).json({ message: "All Tasks", task })
 }
