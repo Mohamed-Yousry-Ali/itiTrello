@@ -109,7 +109,7 @@ const gettask = async (req, res) => {
     const task = await taskModel.findById(taskid);
   
 
-    res.status(201).json({ message: "All Tasks", task })
+    res.status(201).json({ message: "get task", task })
 }
 
 
