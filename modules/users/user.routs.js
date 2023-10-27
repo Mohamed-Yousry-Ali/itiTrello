@@ -1,12 +1,12 @@
 import express from 'express'
-import { changePass, deleteUser, getAllUser, getSoftDelete, logout, signIn, signUp, softdeleteUser, updateUser ,deleteUserid  } from './user.controller.js'
+import { changePass, deleteUser, getAllUser, getSoftDelete, logout, signIn, signUp, softdeleteUser, updateUser ,deleteUserid, getTaskUser  } from './user.controller.js'
 import validation from '../../middlware/validation.js'
 import { signInSchema, signUpValidationSchema } from './user.validation.js'
 
 const userRouts = express.Router()
 
 userRouts.get("/user", getAllUser)
-
+userRouts.get("/usertask", getTaskUser)
 userRouts.post("/login", validation(signInSchema), signIn)
 userRouts.post("/addUser", validation(signUpValidationSchema), signUp)
 userRouts.patch("/changepass", changePass)

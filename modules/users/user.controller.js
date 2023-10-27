@@ -2,10 +2,33 @@ import userModel from "../../db/models/user.model.js"
 import bcrypt from 'bcrypt';
 import { json } from "express";
 import Jwt from "jsonwebtoken";
+import taskModel from "../../db/models/task.model.js";
 
 const getAllUser = async (req, res) => {
     let allUsers = await userModel.find().populate("task");
     res.json({ message: "All Users", allUsers })
+}
+
+const getTaskUser = async (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    console.log(token)
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized - Token not provided' });
+    }
+
+    //Verify the token and get the user ID
+    Jwt.verify(token, 'toke', async (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Unauthorized - Invalid token' });
+        }
+   
+        console.log(decoded.id)
+
+
+        let userid = decoded.id
+    let taskUsers = await taskModel.find({"assignTo":userid});
+    res.json({ message: "tasks", taskUsers })
+})
 }
 
 const signUp = async (req, res) => {
@@ -175,7 +198,7 @@ export {
     signIn,
     changePass,
     updateUser,
-  
+    getTaskUser,
     deleteUser,
     deleteUserid,
     softdeleteUser,
