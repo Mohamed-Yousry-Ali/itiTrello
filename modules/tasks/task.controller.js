@@ -126,6 +126,38 @@ const afterdeadLine = async (req, res) => {
 }
 
 
+const updateTaskStatus = async (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    console.log(token)
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized - Token not provided' });
+    }
+
+    //Verify the token and get the user ID
+    Jwt.verify(token, 'toke', async (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Unauthorized - Invalid token' });
+        }
+
+        const taskid = req.body._id;
+
+        // Find the task by ID
+        const task = await taskModel.findById(taskid);
+        if (!task) {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+
+        // Verify that the user making the request is the creator of the task
+        if (task.userId.toString() !== decoded.id) {
+            return res.status(403).json({ error: 'You Not The Creator' });
+        }
+
+
+        let updatedTask = await taskModel.findByIdAndUpdate(taskid, {  status: req.body.status }, { new: true })
+        res.json({ message: "Update Sucess", updatedTask })
+
+    })
+}
 
 export {
     addtask,
@@ -133,5 +165,6 @@ export {
     updateTask,
     deleteTask,
     afterdeadLine,
-    gettask
+    gettask,
+    updateTaskStatus
 }
