@@ -3,7 +3,8 @@ import bcrypt from 'bcrypt';
 import { json } from "express";
 import Jwt from "jsonwebtoken";
 import taskModel from "../../db/models/task.model.js";
-
+import { OAuth2Client } from "google-auth-library";
+const client = new OAuth2Client('141392562204-b94mh2ivg98h6eulv8dngqg458644vn9.apps.googleusercontent.com')
 const getAllUser = async (req, res) => {
     let allUsers = await userModel.find().populate("task");
     res.json({ message: "All Users", allUsers })
@@ -192,6 +193,20 @@ const logout = async (req, res) => {
         res.json({ message: "Sucess Logout", updateLogout })
     })
 }
+
+const googlelogin = async(req,res)=>{
+    const token = req.headers.authorization?.split(' ')[1];
+
+    //Verify the token and get the user ID
+    Jwt.verify(token, 'toke', async (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Unauthorized - Invalid token' });
+        }
+        let userid = decoded.id;
+        const user = await userModel.findById(userid);
+        res.json({ message: "user", user })
+    })
+}
 export {
     getAllUser,
     signUp,
@@ -203,5 +218,6 @@ export {
     deleteUserid,
     softdeleteUser,
     getSoftDelete,
-    logout
+    logout,
+    googlelogin
 }
